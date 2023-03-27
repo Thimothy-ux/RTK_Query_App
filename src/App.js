@@ -4,21 +4,27 @@ import { useGetJokesQuery } from './apiSlice/apiSlice';
 
 function App() {
 
-  const { data , isError , isFetching , isLoading , isSuccess , isUninitialized } = useGetJokesQuery();
+  const { data = [] , isError , isFetching , isLoading , isSuccess , isUninitialized } = useGetJokesQuery();
 
-  console.log(data?.results[0]);
+  
   return (
     <div className="App">
-      { !isLoading && 
-        data?.results.map( (movie) =>
+       <h1>Movie Images</h1>
+       {isError ? ( <>Oh no, there was an error</> ) : isLoading ? (
+            <>Loading...</>
+             ) : 
+             data && 
+        data?.results?.map( (movie , id) =>
         {
-        
-          <div>
-            <h1>Movie Images</h1>
-            <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} width = {200} height = {300} />
-            <h2>{movie.original_title}</h2>
-          </div>
           
+        
+            return(
+             <div key={id} >
+               
+                <img src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`} width = {300} height = {300} />
+                <h2>{movie.original_title}</h2>
+             </div>)
+             
 
         } )
       }
